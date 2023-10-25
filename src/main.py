@@ -49,10 +49,10 @@ async def admin(ctx, member: discord.Member):
 
     # Assign the "Admin" role to the specified member
     if admin_role in member.roles:
-        await ctx.send(f'{member.display_name} is already an Admin!')
+        await ctx.send(f'{member.mention} is already an Admin!')
     else:
         await member.add_roles(admin_role)
-        await ctx.send(f'{member.display_name} is now an Admin!')
+        await ctx.send(f'{member.mention} is now an Admin!')
 
 
 token = ""
