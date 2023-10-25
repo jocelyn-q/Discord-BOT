@@ -1,6 +1,7 @@
-import json
 from discord.ext import commands
 import discord
+import asyncio
+import json
 import random
 import http.client
 
@@ -141,5 +142,43 @@ async def xkcd(ctx):
     else:
         await ctx.send("Failed to fetch XKCD comic.")
 
-token = 
+@bot.command()
+async def poll(ctx, question, time_limit_minutes=-1):
+    # Mention @here and post the poll question
+    poll_message = f"@here {ctx.author.display_name} has a poll question:\n**{question}**\nReact with 👍 or 👎 to vote."
+    poll_message = await ctx.send(poll_message)
+
+    # Send question with reactions
+    message = f"{question}"
+    question_message = await ctx.send(message)
+
+    await question_message.add_reaction("👍")
+    await question_message.add_reaction("👎")
+
+    if time_limit_minutes > 0:
+        await asyncio.sleep(time_limit_minutes * 60)
+
+        result_poll_message = await ctx.channel.fetch_message(question_message.id)
+
+        thumbs_up = 0
+        thumbs_down = 0
+        for reaction in result_poll_message.reactions:
+            if str(reaction.emoji) == "👍":
+                thumbs_up = reaction.count - 1
+            elif str(reaction.emoji) == "👎":
+                thumbs_down = reaction.count - 1
+
+        # Post the final result message
+        result_message = f"The poll question was: **{question}**\n" \
+                     f"👍 Yes: {thumbs_up}\n" \
+                     f"👎 No: {thumbs_down}\n" \
+                     f"Poll ended."
+
+        await ctx.send(result_message)
+
+        await poll_message.delete()
+        await question_message.delete()
+
+
+token = ""
 bot.run(token)  # Starts the bot
