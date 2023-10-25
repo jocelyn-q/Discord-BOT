@@ -48,7 +48,7 @@
 
 [X] When typing `!admin <A member nickname>`, your bot should create an Admin role (if it doesn't exists) on your server, allowing them to manage channels, kick and ban members, and give it to the member in parameter
 
-[ ] When typing `!ban <A member nickname> <ban reason?>`, your bot should ban that member from the server (**Test with caution**) displaying the input reason for the ban. If no ban reason is input, your bot should display a funny catchphrase picked at random in a given list
+[X] When typing `!ban <A member nickname> <ban reason?>`, your bot should ban that member from the server (**Test with caution**) displaying the input reason for the ban. If no ban reason is input, your bot should display a funny catchphrase picked at random in a given list
 
 [ ] The command `!flood` should activate (or deactivate) a moderation workflow. When activated, your bot should monitor the messages and display a warning to any user posting more than X messages in the last Y minutes. The (de)activation should be confirmed using a custom message
 

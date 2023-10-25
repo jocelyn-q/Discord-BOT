@@ -55,5 +55,32 @@ async def admin(ctx, member: discord.Member):
         await ctx.send(f'{member.mention} is now an Admin!')
 
 
+catchphrases = [
+    "Catch this ratio bozo!",
+    "Condamné à pisser du code pour une ESN",
+    "Ratio",
+    "Ratioed",
+]
+
+@bot.command()
+async def ban(ctx, member: discord.Member, reason=""):
+    if member is None:
+        await ctx.send("Please mention a valid member to ban.")
+        return
+
+    if member not in ctx.guild.members:
+        await ctx.send(f'{member.display_name} is not a member of this server!')
+        return
+
+    if not reason:
+        ban_message = random.choice(catchphrases)
+    else:
+        # Ban the member with the provided reason
+        ban_message = f'{member.display_name} has been banned for the reason: {reason}'
+
+    await member.ban(reason=reason)
+    await ctx.send(ban_message)
+
+
 token = ""
 bot.run(token)  # Starts the bot
