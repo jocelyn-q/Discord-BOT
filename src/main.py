@@ -21,14 +21,6 @@ async def on_ready():  # When the bot is ready
     print("I'm in")
     print(bot.user)  # Prints the bot's username and identifier
 
-@bot.event
-async def on_message(message):
-    if message.content == "Salut tout le monde":
-        await message.channel.send(f"Salut tout seul {message.author.mention}")
-
-    await bot.process_commands(message)
-
-
 @bot.command()
 async def pong(ctx):
     await ctx.send('pong')
@@ -103,6 +95,10 @@ async def flood(ctx):
 
 @bot.event
 async def on_message(message):
+    # Salut tout le monde and Flood detection
+    if message.content == "Salut tout le monde":
+        await message.channel.send(f"Salut tout seul {message.author.mention}")
+
     if flood_monitoring_active and not message.author.bot:
         user_id = message.author.id
         current_time = message.created_at
@@ -143,6 +139,11 @@ async def xkcd(ctx):
         await ctx.send("Failed to fetch XKCD comic.")
 
 @bot.command()
+# Example : !poll "Should we get burgers ?" 5
+# The poll will be active for 5 minutes
+
+# Example : !poll "Should we get burgers ?"
+# The poll will be active until the bot is stopped
 async def poll(ctx, question, time_limit_minutes=-1):
     # Mention @here and post the poll question
     poll_message = f"@here {ctx.author.display_name} has a poll question:\n**{question}**\nReact with 👍 or 👎 to vote."
