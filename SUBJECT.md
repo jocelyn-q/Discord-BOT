@@ -3,6 +3,9 @@
 http.client is native python lib : https://docs.python.org/3.10/library/
 asyncio is a native python lib : https://docs.python.org/3.10/library/asyncio.html
 
+For the last part, i can't use OPEN AI token because i need to pay sadly
+https://stackoverflow.com/questions/75898276/openai-chatgpt-gpt-3-5-api-error-429-you-exceeded-your-current-quota-please
+
 ## Pre-requisites
 
 - Have discord installed on your laptop or access it through a web browser
