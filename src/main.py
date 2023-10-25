@@ -180,5 +180,41 @@ async def poll(ctx, question, time_limit_minutes=-1):
         await question_message.delete()
 
 
+@bot.command()
+async def mychatgpt(ctx, *, user_prompt):
+    try:
+        # Create an HTTP connection to the OpenAI API
+        connection = http.client.HTTPSConnection("api.openai.com")
+        
+        # Define the request headers
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {openai_api_key}"
+        }
+
+        # Create the request payload
+        payload = {
+            "prompt": user_prompt,
+            "max_tokens": 50  # Adjust this to control response length
+        }
+
+        # Convert the payload to a JSON string
+        payload_json = json.dumps(payload)
+
+        # Send a POST request to the OpenAI API
+        connection.request("POST", "/v1/engines/davinci/completions", payload_json, headers)
+        response = connection.getresponse()
+        response_data = response.read()
+        response_dict = json.loads(response_data)
+
+        # Get the GPT-3 response
+        bot_response = response_dict["choices"][0]["text"]
+
+        # Send the GPT-3 response to the Discord channel
+        await ctx.send(f"**User Prompt:** {user_prompt}\n**GPT-3 Response:** {bot_response}")
+    except Exception as e:
+        await ctx.send("An error occurred while processing the prompt.")
+
+
 token = ""
 bot.run(token)  # Starts the bot
