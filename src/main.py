@@ -81,6 +81,46 @@ async def ban(ctx, member: discord.Member, reason=""):
     await member.ban(reason=reason)
     await ctx.send(ban_message)
 
+flood_monitoring_active = False
+flood_message_limit = 5
+flood_time_period = 1
+user_activity = {}	
+
+@bot.command()
+async def flood(ctx):
+    global flood_monitoring_active
+    flood_monitoring_active = not flood_monitoring_active
+
+    if flood_monitoring_active:
+        response = "Flood detection is now active."
+    else:
+        response = "Flood detection is now deactivated."
+
+    await ctx.send(response)
+
+@bot.event
+async def on_message(message):
+    if flood_monitoring_active and not message.author.bot:
+        user_id = message.author.id
+        current_time = message.created_at
+
+        if user_id in user_activity:
+            user_activity[user_id]['message_count'] += 1
+            user_activity[user_id]['timestamps'].append(current_time)
+        else:
+            user_activity[user_id] = {'message_count': 1, 'timestamps': [current_time]}
+
+        # Check for flooders
+        if user_activity[user_id]['message_count'] >= flood_message_limit:
+            last_message_time = user_activity[user_id]['timestamps'][-flood_message_limit]
+            time_difference = (current_time - last_message_time).total_seconds() / 60
+            if time_difference <= flood_time_period:
+                # Send a warning message to the user
+                warning_message = f"{message.author.mention}, you're posting too many messages in a short time."
+                await message.channel.send(warning_message)
+
+    await bot.process_commands(message)
+
 
 token = ""
 bot.run(token)  # Starts the bot

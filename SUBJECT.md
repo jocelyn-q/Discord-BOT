@@ -50,7 +50,7 @@
 
 [X] When typing `!ban <A member nickname> <ban reason?>`, your bot should ban that member from the server (**Test with caution**) displaying the input reason for the ban. If no ban reason is input, your bot should display a funny catchphrase picked at random in a given list
 
-[ ] The command `!flood` should activate (or deactivate) a moderation workflow. When activated, your bot should monitor the messages and display a warning to any user posting more than X messages in the last Y minutes. The (de)activation should be confirmed using a custom message
+[X] The command `!flood` should activate (or deactivate) a moderation workflow. When activated, your bot should monitor the messages and display a warning to any user posting more than X messages in the last Y minutes. The (de)activation should be confirmed using a custom message
 
 ### It's all fun and games
 
