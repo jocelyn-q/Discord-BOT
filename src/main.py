@@ -16,6 +16,13 @@ bot = commands.Bot(
 
 bot.author_id = 142316744176828416  # Change to your discord id
 
+# flood parameters
+flood_monitoring_active = False
+flood_message_limit = 5
+flood_time_period = 1
+user_activity = {}	
+
+
 @bot.event
 async def on_ready():  # When the bot is ready
     print("I'm in")
@@ -75,11 +82,6 @@ async def ban(ctx, member: discord.Member, reason=""):
 
     await member.ban(reason=reason)
     await ctx.send(ban_message)
-
-flood_monitoring_active = False
-flood_message_limit = 5
-flood_time_period = 1
-user_activity = {}	
 
 @bot.command()
 async def flood(ctx):
