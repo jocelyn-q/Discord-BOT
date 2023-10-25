@@ -1,6 +1,8 @@
+import json
 from discord.ext import commands
 import discord
 import random
+import http.client
 
 intents = discord.Intents.default()
 intents.members = True
@@ -103,7 +105,7 @@ async def on_message(message):
     if flood_monitoring_active and not message.author.bot:
         user_id = message.author.id
         current_time = message.created_at
-
+        
         if user_id in user_activity:
             user_activity[user_id]['message_count'] += 1
             user_activity[user_id]['timestamps'].append(current_time)
@@ -121,6 +123,23 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
+@bot.command()
+async def xkcd(ctx):
+    xkcd_api_url = "xkcd.com"
+    connection = http.client.HTTPSConnection(xkcd_api_url)
+    
+    connection.request("GET", f"/{random.randint(1, 2846)}/info.0.json")
+    response = connection.getresponse()
+    
+    if response.status == 200:
+        data = response.read()
+        
+        comic_data = json.loads(data.decode("utf-8"))
+        comic_image_url = comic_data["img"]
+        
+        await ctx.send(comic_image_url)
+    else:
+        await ctx.send("Failed to fetch XKCD comic.")
 
-token = ""
+token = 
 bot.run(token)  # Starts the bot

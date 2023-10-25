@@ -54,7 +54,7 @@
 
 ### It's all fun and games
 
-[ ] When typing `!xkcd`, your post should post a random comic from https://xkcd.com
+[X] When typing `!xkcd`, your post should post a random comic from https://xkcd.com
 
 [ ] When typing `!poll <question>`, your bot should post a @here mention followed by a Yes/No question. The bost will then write the question again in another message and add one :thumbsup: and one :thumbsdown: emoji reaction to its message
 
